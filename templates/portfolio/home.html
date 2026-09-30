@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- ============ INTRO ============ -->
+<section id="home">
+  <div class="flex justify-center mb-6 lg:mb-8">
+    <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
+      <span class="relative flex h-2.5 w-2.5">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-green opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-green"></span>
+      </span>
+      <span class="text-xs font-semibold tracking-wider text-gray-200 uppercase">Available for work</span>
+    </div>
+  </div>
+
+  <div class="relative w-full my-4 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 min-h-[320px] md:min-h-[440px] lg:min-h-[500px]">
+    <div class="text-center md:text-left z-0">
+      <h1 class="font-display font-extrabold text-[13vw] md:text-[8vw] lg:text-[7.5rem] giant-text text-white/95">
+        Tariqul<br>Islam
+      </h1>
+    </div>
+    <div class="relative z-10 flex justify-center items-end shrink-0">
+      {% if profile and profile.has_photo %}
+        <img src="{{ profile.photo.url }}" alt="Tariqul Islam"
+             class="w-auto h-[280px] md:h-[420px] lg:h-[500px] object-contain filter drop-shadow-[0_20px_30px_rgba(0,0,0,0.8)]">
+      {% else %}
+        <div class="h-[280px] md:h-[420px] flex items-center justify-center text-6xl font-extrabold text-white/20 border border-dashed border-white/20 rounded-2xl px-16">TI</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="mt-8 md:mt-12 max-w-3xl mx-auto text-center z-20">
+    <h2 class="text-lg md:text-xl font-medium text-brand-green tracking-wide mb-3">
+      {{ profile.title|default:"Software &amp; R&amp;D Engineer" }}
+    </h2>
+    <p class="text-gray-300 text-base md:text-lg leading-relaxed mb-8 font-light max-w-2xl mx-auto">
+      {{ profile.summary }}
+    </p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="{% url 'resume' %}" class="w-full sm:w-auto px-8 py-3.5 rounded-full bg-transparent border border-white/20 text-white font-medium text-sm hover:border-brand-green hover:text-brand-green transition-all duration-300 flex items-center justify-center gap-2">
+        <span>Download Resume</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EDUCATION (restored) ============ -->
+<section id="education" class="py-10 border-t border-slate-800 mt-10 reveal">
+  <h2 class="text-xl font-semibold mb-4">Education</h2>
+  <div class="space-y-3">
+    {% for e in education %}
+    <div class="card reveal reveal-left bg-slate-900 border border-slate-800 rounded-xl p-4" style="--d:{{ forloop.counter0 }}00ms">
+      <div class="font-medium">{{ e.degree }}</div>
+      <div class="text-sm text-slate-400">{{ e.institution }}{% if e.result %} · {{ e.result }}{% endif %}</div>
+    </div>
+    {% empty %}<p class="text-slate-500 text-sm">Run <code>python manage.py seed_portfolio</code>.</p>{% endfor %}
+  </div>
+</section>
+
+<!-- ============ EXPERIENCE timeline (restored) ============ -->
+<section id="experience" class="py-10 border-t border-slate-800 reveal">
+  <h2 class="text-xl font-semibold mb-4">Experience</h2>
+  <div class="timeline space-y-5">
+    {% for x in experiences %}
+    <div class="reveal reveal-right relative pl-8" style="--d:{{ forloop.counter0 }}00ms">
+      <span class="timeline-dot"></span>
+      <div class="card bg-slate-900 border border-slate-800 rounded-xl p-4">
+        <div class="font-medium">{{ x.role }}{% if x.company %} — <span class="text-slate-400">{{ x.company }}</span>{% endif %}</div>
+        <ul class="list-disc ml-5 mt-2 text-sm text-slate-300 space-y-1">
+          {% for b in x.bullet_list %}<li>{{ b }}</li>{% endfor %}
+        </ul>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ============ SKILLS bars (restored) ============ -->
+<section id="skills" class="py-10 border-t border-slate-800 reveal">
+  <h2 class="text-xl font-semibold mb-4">Skills</h2>
+  <div class="grid md:grid-cols-2 gap-4">
+    {% for group, items in skill_groups.items %}
+    <div class="card reveal reveal-zoom bg-slate-900 border border-slate-800 rounded-xl p-4" style="--d:{{ forloop.counter0 }}00ms">
+      <div class="text-sm font-semibold text-emerald-300 mb-3">{{ group }}</div>
+      <div class="space-y-2.5">
+        {% for s in items %}
+        <div>
+          <div class="flex justify-between text-xs mb-1"><span>{{ s.name }}</span><span class="text-slate-500">{{ s.proficiency }}/5</span></div>
+          <div class="bar"><span class="bar-fill" style="--w:{% widthratio s.proficiency 5 100 %}%"></span></div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ============ PROJECTS (restored) ============ -->
+<section id="projects" class="py-10 border-t border-slate-800 reveal">
+  <h2 class="text-xl font-semibold mb-4">Projects</h2>
+  <div class="grid md:grid-cols-2 gap-4">
+    {% for p in projects %}
+    <a href="{{ p.get_absolute_url }}" class="card reveal reveal-zoom bg-slate-900 border border-slate-800 rounded-xl p-4 block" style="--d:{{ forloop.counter0 }}00ms">
+      <div class="font-medium">{{ p.title }} <span class="link-arrow text-emerald-300">→</span></div>
+      <div class="text-sm text-slate-400 mt-1">{{ p.summary }}</div>
+      <div class="mt-2 flex flex-wrap gap-1">
+        {% for t in p.technologies.all %}<span class="text-[11px] px-2 py-0.5 rounded bg-slate-800">{{ t.name }}</span>{% endfor %}
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ============ BLOG (restored) ============ -->
+<section id="blog" class="py-10 border-t border-slate-800 reveal">
+  <h2 class="text-xl font-semibold mb-1">Blog</h2>
+  <p class="text-sm text-slate-400 mb-4">Notes mirrored from LinkedIn. Full post on LinkedIn → excerpt here for search &amp; RAG.</p>
+  <div class="grid md:grid-cols-2 gap-4">
+    {% for post in posts %}
+    <a href="{{ post.get_absolute_url }}" class="card reveal reveal-left bg-slate-900 border border-slate-800 rounded-xl p-4 block" style="--d:{{ forloop.counter0 }}00ms">
+      <div class="font-medium">{{ post.title }} <span class="link-arrow text-emerald-300">→</span></div>
+      <div class="text-sm text-slate-400 mt-1">{{ post.excerpt|truncatewords:30 }}</div>
+      {% if post.linkedin_url %}<div class="text-xs text-sky-300 mt-2">↗ LinkedIn original</div>{% endif %}
+    </a>
+    {% empty %}<p class="text-slate-500 text-sm">No posts yet. Add via admin → BlogPosts (paste LinkedIn URL + body).</p>{% endfor %}
+  </div>
+</section>
+
+<!-- ============ CONTACT (restored) ============ -->
+<section id="contact" class="py-10 border-t border-slate-800 reveal">
+  <h2 class="text-xl font-semibold mb-4">Contact</h2>
+  <form method="post" action="{% url 'contact' %}" class="max-w-lg space-y-3 reveal reveal-zoom">
+    {% csrf_token %}
+    <input name="name" required placeholder="Your name" class="w-full p-2 rounded bg-slate-900 border border-slate-700 focus:border-emerald-500 outline-none transition-colors">
+    <input name="email" type="email" required placeholder="you@example.com" class="w-full p-2 rounded bg-slate-900 border border-slate-700 focus:border-emerald-500 outline-none transition-colors">
+    <textarea name="message" required rows="4" maxlength="2000" placeholder="Message…" class="w-full p-2 rounded bg-slate-900 border border-slate-700 focus:border-emerald-500 outline-none transition-colors"></textarea>
+    <button class="px-4 py-2 rounded bg-emerald-600 hover:bg-emerald-500 text-sm font-medium transition-all hover:-translate-y-0.5">Send</button>
+  </form>
+</section>
+
+{% endblock %}

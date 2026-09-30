@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{{ object.title }} — Blog{% endblock %}
+{% block content %}
+<a href="{% url 'home' %}#blog" class="text-sm text-slate-400 underline">← Back</a>
+<h1 class="text-2xl font-bold mt-2">{{ object.title }}</h1>
+<div class="prose prose-invert mt-4 text-slate-200">{{ object.body|linebreaks }}</div>
+{% if object.linkedin_url %}
+<p class="mt-4 text-sm"><a class="underline text-sky-300" href="{{ object.linkedin_url }}">View original on LinkedIn ↗</a></p>
+{% endif %}
+{% if object.linkedin_embed_html %}
+<div class="mt-4">{{ object.linkedin_embed_html|safe }}</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ object.title }} — Portfolio{% endblock %}
+{% block content %}
+<a href="{% url 'home' %}#projects" class="text-sm text-slate-400 underline">← Back</a>
+<h1 class="text-2xl font-bold mt-2">{{ object.title }}</h1>
+<p class="text-slate-400 mt-1">{{ object.summary }}</p>
+<div class="mt-2 flex gap-2 text-sm">
+  {% for t in object.technologies.all %}<span class="px-2 py-1 rounded bg-slate-800 text-xs">{{ t.name }}</span>{% endfor %}
+</div>
+<div class="prose prose-invert mt-4 text-slate-200">{{ object.description|linebreaks }}</div>
+<div class="mt-4 text-sm space-x-3">
+  {% if object.github_url %}<a class="underline" href="{{ object.github_url }}">GitHub</a>{% endif %}
+  {% if object.demo_url %}<a class="underline" href="{{ object.demo_url }}">Demo</a>{% endif %}
+</div>
+{% endblock %}
