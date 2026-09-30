@@ -28,11 +28,18 @@
 </style>
 <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 <link rel="stylesheet" href="/static/css/style.css">
+<script>
+/* Apply saved theme before paint to avoid flash */
+(function () {
+  try { if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light'); } catch (e) {}
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 </head>
 <body style="background:#0a0b0e;" class="font-sans text-slate-100 antialiased selection:bg-brand-green selection:text-black">
+<canvas id="cursor-dots" aria-hidden="true"></canvas>
 <header class="fixed top-0 left-0 w-full z-50 nav-blur border-b border-white/5 px-6 lg:px-16 py-4">
   <div class="max-w-7xl mx-auto flex items-center justify-between">
     <a href="{% url 'home' %}" class="font-display font-extrabold text-xl lg:text-2xl tracking-wider text-white hover:opacity-90 transition" aria-label="Home">
@@ -45,15 +52,22 @@
       <a href="#experience" class="text-gray-400 hover:text-white transition">Experience</a>
       <a href="#skills" class="text-gray-400 hover:text-white transition">Skills</a>
       <a href="#projects" class="text-gray-400 hover:text-white transition">Projects</a>
+      <a href="#courses" class="text-gray-400 hover:text-white transition">Courses</a>
       <a href="#blog" class="text-gray-400 hover:text-white transition">Blog</a>
     </nav>
     <div class="hidden md:flex items-center gap-3">
       <a href="{% url 'resume' %}" class="px-6 py-2.5 rounded-full border border-white/20 text-sm font-medium text-white hover:border-brand-green hover:text-brand-green transition-all duration-300">Download Resume</a>
       <a href="#contact" class="px-6 py-2.5 rounded-full border border-white/20 text-sm font-medium text-white hover:border-brand-green hover:text-brand-green transition-all duration-300">Contact Me</a>
     </div>
-    <button onclick="toggleMobileMenu()" class="md:hidden text-gray-300 hover:text-white focus:outline-none" aria-label="Menu">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-    </button>
+    <div class="flex items-center gap-2">
+      <button id="theme-toggle" aria-label="Toggle light/dark theme" class="w-10 h-10 rounded-full border border-white/20 text-white flex items-center justify-center hover:border-brand-green transition-all duration-300">
+        <svg id="theme-ico-moon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        <svg id="theme-ico-sun" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" stroke-width="2"></circle><path stroke-linecap="round" stroke-width="2" d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+      </button>
+      <button onclick="toggleMobileMenu()" class="md:hidden text-gray-300 hover:text-white focus:outline-none" aria-label="Menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+      </button>
+    </div>
   </div>
   <div id="mobileMenu" class="hidden md:hidden pt-4 pb-2 px-2 flex flex-col space-y-3 text-sm">
     <a href="#home" class="text-brand-green font-semibold">Home</a>
@@ -62,6 +76,7 @@
     <a href="#experience" class="text-gray-400 hover:text-white">Experience</a>
     <a href="#skills" class="text-gray-400 hover:text-white">Skills</a>
     <a href="#projects" class="text-gray-400 hover:text-white">Projects</a>
+    <a href="#courses" class="text-gray-400 hover:text-white">Courses</a>
     <a href="#blog" class="text-gray-400 hover:text-white">Blog</a>
     <a href="#contact" class="inline-block text-center px-5 py-2 rounded-full border border-white/20 text-white mt-2">Contact Me</a>
     <a href="{% url 'resume' %}" class="inline-block text-center px-5 py-2 rounded-full border border-white/20 text-white mt-2">Download Resume</a>
@@ -98,6 +113,23 @@
 function toggleMobileMenu() {
   document.getElementById('mobileMenu').classList.toggle('hidden');
 }
+// Theme switch: persist in localStorage, default dark.
+(function () {
+  var btn = document.getElementById('theme-toggle');
+  var moon = document.getElementById('theme-ico-moon');
+  var sun = document.getElementById('theme-ico-sun');
+  function paint() {
+    var light = document.documentElement.classList.contains('light');
+    moon.classList.toggle('hidden', light);
+    sun.classList.toggle('hidden', !light);
+  }
+  paint();
+  btn.addEventListener('click', function () {
+    var light = document.documentElement.classList.toggle('light');
+    try { localStorage.setItem('theme', light ? 'light' : 'dark'); } catch (e) {}
+    paint();
+  });
+})();
 // Scroll-reveal: every .reveal element animates in once when visible.
 (function () {
   var els = document.querySelectorAll('.reveal');
@@ -128,6 +160,51 @@ function toggleMobileMenu() {
   }
   fab.addEventListener('click', function () { setOpen(panel.classList.contains('hidden')); });
   closeBtn.addEventListener('click', function () { setOpen(false); });
+})();
+
+// Faint dot grid that brightens near the cursor (decorative, very low visibility).
+(function () {
+  var canvas = document.getElementById('cursor-dots');
+  if (!canvas || !window.requestAnimationFrame) return;
+  var ctx = canvas.getContext('2d');
+  var GAP = 30, R = 1.3, RADIUS = 140;
+  var mx = -9999, my = -9999, dirty = true, W = 0, H = 0;
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function resize() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    dirty = true;
+  }
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    var base = document.documentElement.classList.contains('light') ? '15,23,42' : '255,255,255';
+    for (var x = GAP / 2; x < W; x += GAP) {
+      for (var y = GAP / 2; y < H; y += GAP) {
+        var dx = x - mx, dy = y - my;
+        var d = Math.sqrt(dx * dx + dy * dy);
+        // Rest: fully invisible. Near cursor: faint red glow up to 20%.
+        var a = 0, col = base;
+        if (!reduced && d < RADIUS) {
+          var t = 1 - d / RADIUS;
+          a = 0.30 * t;
+          col = '255,70,70';
+        }
+        ctx.fillStyle = 'rgba(' + col + ',' + a.toFixed(3) + ')';
+        ctx.beginPath();
+        ctx.arc(x, y, R, 0, 6.2832);
+        ctx.fill();
+      }
+    }
+    dirty = false;
+  }
+  function loop() { if (dirty) draw(); requestAnimationFrame(loop); }
+  window.addEventListener('mousemove', function (e) { mx = e.clientX; my = e.clientY; dirty = true; }, { passive: true });
+  window.addEventListener('resize', resize);
+  resize();
+  loop();
 })();
 </script>
 </body>

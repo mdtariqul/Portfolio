@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import BlogPost, ContactMessage, Education, Experience, Profile, Project, Skill
+from .models import BlogPost, ContactMessage, Course, Education, Experience, Profile, Project, Skill
 
 
 @admin.register(Profile)
@@ -30,6 +30,12 @@ class ProjectAdmin(admin.ModelAdmin):
     list_editable = ["order", "featured"]
     prepopulated_fields = {"slug": ["title"]}
     filter_horizontal = ["technologies"]
+
+
+@admin.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    list_display = ["title", "provider", "order"]
+    list_editable = ["order"]
 
 
 @admin.register(BlogPost)

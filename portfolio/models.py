@@ -172,6 +172,26 @@ class Project(OrderedModel, TimeStampedModel):
         return self.title
 
 
+class Course(OrderedModel, TimeStampedModel):
+    """Courses / certifications completed."""
+
+    title = models.CharField(max_length=300)
+    provider = models.CharField(max_length=200, blank=True)
+    credential_url = models.URLField(blank=True)
+    credential_id = models.CharField(max_length=200, blank=True)
+    skills = models.CharField(max_length=500, blank=True, help_text="Comma-separated skills")
+    completed = models.DateField(null=True, blank=True)
+
+    def get_rag_text(self):
+        return f"Course: {self.title} by {self.provider}"
+
+    def skill_list(self):
+        return [s.strip() for s in self.skills.split(",") if s.strip()]
+
+    def __str__(self):
+        return f"{self.title} — {self.provider}"
+
+
 class BlogPost(TimeStampedModel):
     """Local post, optionally mirroring a LinkedIn post."""
 

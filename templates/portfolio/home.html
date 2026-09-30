@@ -3,21 +3,12 @@
 
 <!-- ============ INTRO ============ -->
 <section id="home">
-  <div class="flex justify-center mb-6 lg:mb-8">
-    <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
-      <span class="relative flex h-2.5 w-2.5">
-        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-green opacity-75"></span>
-        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-green"></span>
-      </span>
-      <span class="text-xs font-semibold tracking-wider text-gray-200 uppercase">Available for work</span>
-    </div>
-  </div>
-
   <div class="relative w-full my-4 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 min-h-[320px] md:min-h-[440px] lg:min-h-[500px]">
     <div class="text-center md:text-left z-0 intro-from-left">
       <h1 class="font-display font-extrabold text-[13vw] md:text-[8vw] lg:text-[7.5rem] giant-text text-white/95">
         Tariqul<br>Islam
       </h1>
+      <p class="text-sm md:text-base tracking-[0.3em] uppercase text-brand-green font-medium mt-3">Software Engineer</p>
     </div>
     <div class="relative z-10 flex justify-center items-end shrink-0 intro-from-right">
       {% if profile and profile.has_photo %}
@@ -96,7 +87,7 @@
 
 <!-- ============ PROJECTS (restored) ============ -->
 <section id="projects" class="py-10 border-t border-slate-800 reveal">
-  <h2 class="text-xl font-semibold mb-4">Projects</h2>
+  <h2 class="text-xl font-semibold mb-4">Things I've built.</h2>
   <div class="grid md:grid-cols-2 gap-4">
     {% for p in projects %}
     <a href="{{ p.get_absolute_url }}" class="card reveal reveal-zoom bg-slate-900 border border-slate-800 rounded-xl p-4 block" style="--d:{{ forloop.counter0 }}00ms">
@@ -107,6 +98,22 @@
       </div>
     </a>
     {% endfor %}
+  </div>
+</section>
+
+<!-- ============ COURSES ============ -->
+<section id="courses" class="py-10 border-t border-slate-800 reveal">
+  <h2 class="text-xl font-semibold mb-1">Courses</h2>
+  <p class="text-sm text-slate-400 mb-4">Courses and certifications I have completed.</p>
+  <div class="grid grid-cols-2 gap-3 md:gap-4">
+    {% for c in courses %}
+    <div class="card reveal reveal-zoom bg-slate-900 border border-slate-800 rounded-xl p-3 md:p-4" style="--d:{{ forloop.counter0 }}00ms">
+      <div class="font-medium text-sm md:text-base">{{ c.title }}</div>
+      <div class="text-sm text-slate-400 mt-1">{{ c.provider }}</div>
+      <div class="mt-2 flex flex-wrap gap-1">{% for s in c.skill_list %}<span class="text-[11px] px-2 py-0.5 rounded bg-slate-800">{{ s }}</span>{% endfor %}</div>
+      <a href="{{ c.credential_url|default:'#' }}" class="text-xs text-emerald-300 underline mt-3 inline-block">Show credential ↗</a>
+    </div>
+    {% empty %}<p class="text-slate-500 text-sm">No courses yet. Add via admin → Courses.</p>{% endfor %}
   </div>
 </section>
 
@@ -127,7 +134,7 @@
 
 <!-- ============ CONTACT (bottom of page) ============ -->
 <section id="contact" class="py-10 border-t border-slate-800 reveal">
-  <h2 class="text-xl font-semibold mb-4">Contact</h2>
+  <h2 class="text-xl font-semibold mb-4">Let's talk.</h2>
   <div class="grid md:grid-cols-2 gap-4">
     <div class="card reveal reveal-left bg-slate-900 border border-slate-800 rounded-xl p-6">
       <h3 class="font-medium mb-3">Reach me directly</h3>

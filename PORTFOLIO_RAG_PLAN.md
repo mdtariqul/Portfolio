@@ -337,3 +337,6 @@ celery -A config worker --loglevel=info
 | 2026-10-01 | Intro rebuilt to spec: #0d0d0d/neon #88FF00, badge, giant uppercase title, photo overlapping lower-right, CTA | Hard-refresh to see new intro |
 | 2026-10-01 | Intro matches pasted code: brand theme, fixed blur nav + mobile menu, layered giant type, resume download view; Explore Work dropped | Hard-refresh, test hamburger on mobile |
 | 2026-10-01 | Name/photo slide in from left/right; monogram nav (Home/About/Education/Experience/Skills/Projects/Blog); About section; contact w/ phone+socials+mail form | Add phone + LeetCode URL in admin |
+| 2026-10-01 | Beautified About→Contact: numbered kickers, Syne gradient headings, glass panels, green glow hovers (checkpoint 85b489e to rollback) | Hard-refresh; say the word to revert |
+| 2026-10-01 | Rolled back to 85b489e; headings now "Things I've built." / "Let's talk."; reverted stray ALLOWED_HOSTS; added dark/light toggle (persisted) | Hard-refresh, click moon icon |
+| 2026-10-01 | Courses synced with LinkedIn: 11 total (4 new Kaggle/GDE), split AWS ×3, dates/IDs/skills shown | — |

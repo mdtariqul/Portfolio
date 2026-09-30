@@ -4,15 +4,15 @@ from datetime import date
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
-from portfolio.models import BlogPost, Education, Experience, Profile, Project, Skill
+from portfolio.models import BlogPost, Course, Education, Experience, Profile, Project, Skill
 
 SUMMARY = (
-    "Computer Science graduate with professional experience in embedded networking "
-    "software development using C/C++ and a strong foundation in operating systems, "
-    "computer architecture, and computer networking. Skilled in routing protocols, "
-    "routing and switching, and low-level systems programming, with working knowledge "
-    "of Python. Quick to learn new technologies, with strong analytical and "
-    "problem-solving skills, passionate about systems programming and networking."
+    "Backend engineer building AI-powered applications with Python and Django — from "
+    "email analysis with the OpenAI API to ML-driven platforms for clustering and "
+    "home-value prediction. R&D background in computer networking: routing protocols "
+    "(BGP, RIP, OSPF), MPLS L3VPN, and 6PE/6VPE validation across real router platforms. "
+    "A fast learner and software engineer at heart, grounded in operating systems, "
+    "computer architecture, and problem-solving."
 )
 
 SKILLS = [
@@ -144,5 +144,29 @@ class Command(BaseCommand):
                     if skill:
                         proj.technologies.add(skill)
 
-            self.stdout.write(self.style.SUCCESS("Seeded profile, education, experience, skills, projects."))
+            courses = [
+                # (title, provider, url, cred_id, skills, completed, order)
+                ("Machine Learning Crash Course", "Google Developer Experts", "", "", "Machine Learning, Data Analysis", date(2026, 9, 1), 0),
+                ("Intro to Machine Learning", "Kaggle", "", "", "Python, Machine Learning", date(2026, 9, 1), 1),
+                ("Pandas", "Kaggle", "", "", "pandas, Python", date(2026, 9, 1), 2),
+                ("Introduction to Programming Using Python", "Kaggle", "", "", "Python", date(2026, 9, 1), 3),
+                ("Networking Basics", "Cisco Networking Academy", "https://www.credly.com/badges/b1d37a4c-fd67-4ac6-b053-d380dc3018e/public_url", "b1d37a4c-fd67-4ac6-b053-d380dc3018e3", "Routing Protocols, Network Design", date(2026, 8, 1), 4),
+                ("AWS Educate Getting Started with Networking", "Amazon Web Services (AWS)", "", "", "Networking", date(2024, 12, 1), 5),
+                ("AWS Educate Getting Started with Compute", "Amazon Web Services (AWS)", "", "", "Compute", date(2024, 11, 1), 6),
+                ("AWS Educate Getting Started with Storage", "Amazon Web Services (AWS)", "", "", "Cloud Storage, Amazon S3", date(2024, 11, 1), 7),
+                ("50 SQL problem challenge", "LeetCode", "https://leetcode.com/u/_tariqul_/", "", "MySQL, Databases", date(2024, 10, 1), 8),
+                ("Data Analysis with Python", "freeCodeCamp", "", "md_tariqul_islam-dawp", "Python", date(2023, 5, 1), 9),
+                ("Scientific Computing with Python", "freeCodeCamp", "https://www.freecodecamp.org/certification/Md_Tariqul_Islam/scientific-computing-with-python-v7", "md_tariqul_islam-scwp", "Python", date(2023, 5, 1), 10),
+            ]
+            # Drop the old combined AWS entry, superseded by the three separate ones.
+            Course.objects.filter(title="AWS Educate: Storage, Compute, Networking").delete()
+            Course.objects.filter(title="SQL 50 Study Plan").delete()
+            for title, provider, url, cred_id, skills, completed, i in courses:
+                Course.objects.update_or_create(
+                    title=title,
+                    defaults={"provider": provider, "credential_url": url, "credential_id": cred_id,
+                              "skills": skills, "completed": completed, "order": i},
+                )
+
+            self.stdout.write(self.style.SUCCESS("Seeded profile, education, experience, skills, projects, courses."))
             self.stdout.write("Next: add your photo via admin (Profile), add BlogPosts with LinkedIn URLs.")

@@ -4,7 +4,7 @@ from django.http import FileResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, TemplateView
 
-from .models import BlogPost, ContactMessage, Education, Experience, Profile, Project, Skill
+from .models import BlogPost, ContactMessage, Course, Education, Experience, Profile, Project, Skill
 
 
 class HomeView(TemplateView):
@@ -16,6 +16,7 @@ class HomeView(TemplateView):
         ctx["education"] = Education.objects.all()
         ctx["experiences"] = Experience.objects.all()
         ctx["projects"] = Project.objects.prefetch_related("technologies").all()
+        ctx["courses"] = Course.objects.all()
         ctx["posts"] = BlogPost.objects.filter(is_published=True)[:6]
         # Group skills by category for sectioned display
         skills = Skill.objects.all()
