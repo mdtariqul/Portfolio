@@ -273,6 +273,18 @@ a:hover .link-arrow { transform: translate(2px, -2px); }
 }
 .intro-cta:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 14px 36px -8px rgba(136, 255, 0, .7); }
 
+/* ---- Intro load motion: name from left, photo from right (GPU-cheap) ---- */
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translate3d(-60px, 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translate3d(60px, 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+.intro-from-left { will-change: transform, opacity; animation: slide-in-left .65s ease-out .05s both; }
+.intro-from-right { will-change: transform, opacity; animation: slide-in-right .65s ease-out .15s both; }
+
 /* ---- Responsive ---- */
 @media (max-width: 900px) {
   .demo-grid-4 { grid-template-columns: 1fr 1fr; }

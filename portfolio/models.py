@@ -38,8 +38,10 @@ class Profile(TimeStampedModel):
     )
     location = models.CharField(max_length=200, blank=True)
     email = models.EmailField(blank=True)
+    phone = models.CharField(max_length=40, blank=True)
     linkedin_url = models.URLField(blank=True)
     github_url = models.URLField(blank=True)
+    leetcode_url = models.URLField(blank=True)
 
     def clean(self):
         if self.pk is None and Profile.objects.exists():

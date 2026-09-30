@@ -336,3 +336,4 @@ celery -A config worker --loglevel=info
 | 2026-10-01 | Kept demo hero, restored previous sections (education, timeline, skill bars, projects, blog, contact) | Hard-refresh to confirm |
 | 2026-10-01 | Intro rebuilt to spec: #0d0d0d/neon #88FF00, badge, giant uppercase title, photo overlapping lower-right, CTA | Hard-refresh to see new intro |
 | 2026-10-01 | Intro matches pasted code: brand theme, fixed blur nav + mobile menu, layered giant type, resume download view; Explore Work dropped | Hard-refresh, test hamburger on mobile |
+| 2026-10-01 | Name/photo slide in from left/right; monogram nav (Home/About/Education/Experience/Skills/Projects/Blog); About section; contact w/ phone+socials+mail form | Add phone + LeetCode URL in admin |

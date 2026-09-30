@@ -35,18 +35,20 @@
 <body style="background:#0a0b0e;" class="font-sans text-slate-100 antialiased selection:bg-brand-green selection:text-black">
 <header class="fixed top-0 left-0 w-full z-50 nav-blur border-b border-white/5 px-6 lg:px-16 py-4">
   <div class="max-w-7xl mx-auto flex items-center justify-between">
-    <a href="{% url 'home' %}" class="font-display font-extrabold text-xl lg:text-2xl tracking-wider text-white hover:opacity-90 transition">
-      TARIQUL ISLAM<span class="text-xs align-super text-brand-green">®</span>
+    <a href="{% url 'home' %}" class="font-display font-extrabold text-xl lg:text-2xl tracking-wider text-white hover:opacity-90 transition" aria-label="Home">
+      TI<span class="text-brand-green">.</span>
     </a>
     <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
       <a href="#home" class="text-brand-green font-semibold transition">Home</a>
-      <a href="#experience" class="text-gray-400 hover:text-white transition">About</a>
+      <a href="#about" class="text-gray-400 hover:text-white transition">About</a>
+      <a href="#education" class="text-gray-400 hover:text-white transition">Education</a>
+      <a href="#experience" class="text-gray-400 hover:text-white transition">Experience</a>
+      <a href="#skills" class="text-gray-400 hover:text-white transition">Skills</a>
       <a href="#projects" class="text-gray-400 hover:text-white transition">Projects</a>
-      <a href="#skills" class="text-gray-400 hover:text-white transition">Services</a>
       <a href="#blog" class="text-gray-400 hover:text-white transition">Blog</a>
-      <a href="#contact" class="text-gray-400 hover:text-white transition">Contact</a>
     </nav>
-    <div class="hidden md:block">
+    <div class="hidden md:flex items-center gap-3">
+      <a href="{% url 'resume' %}" class="px-6 py-2.5 rounded-full border border-white/20 text-sm font-medium text-white hover:border-brand-green hover:text-brand-green transition-all duration-300">Download Resume</a>
       <a href="#contact" class="px-6 py-2.5 rounded-full border border-white/20 text-sm font-medium text-white hover:border-brand-green hover:text-brand-green transition-all duration-300">Contact Me</a>
     </div>
     <button onclick="toggleMobileMenu()" class="md:hidden text-gray-300 hover:text-white focus:outline-none" aria-label="Menu">
@@ -55,12 +57,14 @@
   </div>
   <div id="mobileMenu" class="hidden md:hidden pt-4 pb-2 px-2 flex flex-col space-y-3 text-sm">
     <a href="#home" class="text-brand-green font-semibold">Home</a>
-    <a href="#experience" class="text-gray-400 hover:text-white">About</a>
+    <a href="#about" class="text-gray-400 hover:text-white">About</a>
+    <a href="#education" class="text-gray-400 hover:text-white">Education</a>
+    <a href="#experience" class="text-gray-400 hover:text-white">Experience</a>
+    <a href="#skills" class="text-gray-400 hover:text-white">Skills</a>
     <a href="#projects" class="text-gray-400 hover:text-white">Projects</a>
-    <a href="#skills" class="text-gray-400 hover:text-white">Services</a>
     <a href="#blog" class="text-gray-400 hover:text-white">Blog</a>
-    <a href="#contact" class="text-gray-400 hover:text-white">Contact</a>
     <a href="#contact" class="inline-block text-center px-5 py-2 rounded-full border border-white/20 text-white mt-2">Contact Me</a>
+    <a href="{% url 'resume' %}" class="inline-block text-center px-5 py-2 rounded-full border border-white/20 text-white mt-2">Download Resume</a>
   </div>
 </header>
 <main class="relative pt-28 lg:pt-32 pb-16 px-6 lg:px-16 max-w-7xl mx-auto w-full">
