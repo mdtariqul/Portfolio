@@ -132,6 +132,7 @@ class Skill(OrderedModel):
         ("networking", "Networking"),
         ("framework", "Frameworks & Tools"),
         ("cs", "Core CS"),
+        ("ai", "AI / Machine Learning"),
         ("other", "Other"),
     ]
     name = models.CharField(max_length=100, unique=True)

@@ -7,18 +7,22 @@ from django.db import transaction
 from portfolio.models import BlogPost, Course, Education, Experience, Profile, Project, Skill
 
 SUMMARY = (
-    "Backend engineer building AI-powered applications with Python and Django — from "
-    "email analysis with the OpenAI API to ML-driven platforms for clustering and "
-    "home-value prediction. R&D background in computer networking: routing protocols "
-    "(BGP, RIP, OSPF), MPLS L3VPN, and 6PE/6VPE validation across real router platforms. "
-    "A fast learner and software engineer at heart, grounded in operating systems, "
-    "computer architecture, and problem-solving."
+    "Computer Science graduate with hands-on experience in networking, software R&D, "
+    "AI/ML, and backend development. Worked as a Software R&D Engineer at Shanghai "
+    "BDCOM, developing and validating network protocols and features in C on VxWorks, "
+    "with practical experience in BGP, OSPF, RIP, MPLS L3VPN, VRF, and IPv4/IPv6 "
+    "across 15+ network topologies. Alongside networking and low-level software "
+    "development, I have built practical skills in Python and Django, as well as a "
+    "solid foundation in machine learning, transformer architecture, and RAG-based "
+    "applications. A fast learner with a strong interest in building reliable software "
+    "across networking, backend systems, and modern AI/ML applications."
 )
 
 SKILLS = [
-    ("language", [("C", 5), ("C++", 4), ("Python", 3)]),
+    ("language", [("C", 5), ("C++", 4), ("Python", 4)]),
+    ("ai", [("Machine Learning fundamentals", 4), ("pandas / Data Analysis", 4), ("scikit-learn", 3), ("Transformer architecture", 3), ("RAG / LLM apps", 3), ("OpenAI API", 4)]),
     ("os", [("VxWorks RTOS", 4), ("OS internals / memory management", 4), ("IPC / process synchronization", 4)]),
-    ("networking", [("BGP", 4), ("OSPF", 4), ("RIP / RIPng", 4), ("MPLS L3VPN / LDP / VRF", 3), ("VLANs / IPv4+IPv6", 4)]),
+    ("networking", [("BGP", 5), ("OSPF", 4), ("RIP / RIPng", 4), ("MPLS L3VPN / LDP / VRF", 5), ("VLANs / IPv4+IPv6", 5)]),
     ("framework", [("Django", 3), ("SQL", 3), ("Git", 4), ("AWS foundational", 2), ("PHP", 2)]),
     ("cs", [("Data Structures & Algorithms", 4), ("Computer Networks", 5), ("OOP", 4)]),
 ]
@@ -96,7 +100,7 @@ class Command(BaseCommand):
             )
 
             Experience.objects.get_or_create(
-                role="R&D Engineer — Routing Team",
+                role="Software R&D Engineer — Routing Team",
                 company="Shanghai BDCOM",
                 defaults={
                     "start": date(2025, 2, 1),
@@ -129,7 +133,7 @@ class Command(BaseCommand):
             order = 0
             for category, names in SKILLS:
                 for name, level in names:
-                    Skill.objects.get_or_create(
+                    Skill.objects.update_or_create(
                         name=name, defaults={"category": category, "proficiency": level, "order": order}
                     )
                     order += 1

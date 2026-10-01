@@ -26,11 +26,6 @@
   <h2 class="text-xl font-semibold mb-4">About</h2>
   <div class="card reveal reveal-zoom bg-slate-900 border border-slate-800 rounded-xl p-6">
     <p class="text-slate-300 leading-relaxed">{{ profile.summary }}</p>
-    <p class="text-sm text-slate-400 mt-4">
-      {{ profile.location }}
-      {% if profile.email %} · <a class="underline hover:text-white" href="mailto:{{ profile.email }}">{{ profile.email }}</a>{% endif %}
-      {% if profile.phone %} · <a class="underline hover:text-white" href="tel:{{ profile.phone }}">{{ profile.phone }}</a>{% endif %}
-    </p>
   </div>
 </section>
 
@@ -41,7 +36,7 @@
     {% for e in education %}
     <div class="card reveal reveal-left bg-slate-900 border border-slate-800 rounded-xl p-4" style="--d:{{ forloop.counter0 }}00ms">
       <div class="font-medium">{{ e.degree }}</div>
-      <div class="text-sm text-slate-400">{{ e.institution }}{% if e.result %} · {{ e.result }}{% endif %}</div>
+      <div class="text-sm text-slate-400">{{ e.institution }}{% if e.result %} · {{ e.result }}{% endif %}{% if e.end %} · Passing year {{ e.end|date:"Y" }}{% endif %}</div>
     </div>
     {% empty %}<p class="text-slate-500 text-sm">Run <code>python manage.py seed_portfolio</code>.</p>{% endfor %}
   </div>
@@ -56,6 +51,7 @@
       <span class="timeline-dot"></span>
       <div class="card bg-slate-900 border border-slate-800 rounded-xl p-4">
         <div class="font-medium">{{ x.role }}{% if x.company %} — <span class="text-slate-400">{{ x.company }}</span>{% endif %}</div>
+        <div class="text-xs text-emerald-300 mt-1">{% if x.start %}{{ x.start|date:"M Y" }}{% endif %}{% if x.start and x.end or x.is_current %} → {% endif %}{% if x.is_current %}Present{% elif x.end %}{{ x.end|date:"M Y" }}{% endif %}</div>
         <ul class="list-disc ml-5 mt-2 text-sm text-slate-300 space-y-1">
           {% for b in x.bullet_list %}<li>{{ b }}</li>{% endfor %}
         </ul>
